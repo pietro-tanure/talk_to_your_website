@@ -1,10 +1,15 @@
-black
-flake8
-isort
-loguru
-mkdocs
-pip
+# black
+# flake8
+# isort
+# loguru
+# mkdocs
+# pip
+# python-dotenv
+# tqdm
+# typer
+# -e .
+
 python-dotenv
-tqdm
-typer
--e .
+haystack-ai 
+fastapi
+uvicorn
