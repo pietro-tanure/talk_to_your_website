@@ -8,6 +8,11 @@ Given a website URL, we want to have a conversational interface to talk to URL c
 
 # Getting started
 
+0. Add API key to .env file
+```
+echo 'GROQ_API_KEY="XXXX"' >> .env
+```
+
 1. Create a virtual environment:
 ```
 virtualenv .venv
