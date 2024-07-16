@@ -6,6 +6,14 @@
 
 Given a website URL, we want to have a conversational interface to talk to URL content.
 
+# Getting started
+
+1. Create a virtual environment:
+```
+virtualvenv .venv
+source .venv/bin/activate
+```
+
 ## Project Organization
 
 ```
