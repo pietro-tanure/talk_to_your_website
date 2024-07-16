@@ -1,15 +1,5 @@
-# black
-# flake8
-# isort
-# loguru
-# mkdocs
-# pip
-# python-dotenv
-# tqdm
-# typer
-# -e .
-
 python-dotenv
 haystack-ai 
 fastapi
 uvicorn
+trafilatura

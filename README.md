@@ -10,8 +10,25 @@ Given a website URL, we want to have a conversational interface to talk to URL c
 
 1. Create a virtual environment:
 ```
-virtualvenv .venv
+virtualenv .venv
 source .venv/bin/activate
+```
+
+2. Install requirements:
+```
+make requirements
+```
+
+3. Running the SDK:
+- Read the [notebook](notebooks/1.0-pto-url-chat-sdk-and-api.ipynb)
+
+4. Running the API:
+
+```
+cd src
+uvicorn api:app --reload --port 8001
+curl -X POST "http://127.0.0.1:8001/index-url/" -H "Content-Type: application/json" -d '{"url": "https://en.wikipedia.org/wiki/Brazil"}'
+curl -X POST "http://127.0.0.1:8001/ask/" -H "Content-Type: application/json" -d '{"url": "https://en.wikipedia.org/wiki/Brazil", "question": "what is the population of Brazil?"}'
 ```
 
 ## Project Organization
