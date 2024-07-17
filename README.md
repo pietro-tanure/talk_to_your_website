@@ -9,32 +9,40 @@ Given a website URL, we want to have a conversational interface to talk to URL c
 # Getting started
 
 0. Add API key to .env file
-```
-echo 'GROQ_API_KEY="XXXX"' >> .env
-```
+    ```
+    echo 'GROQ_API_KEY="XXXX"' >> .env
+    ```
 
 1. Create a virtual environment:
-```
-virtualenv .venv
-source .venv/bin/activate
-```
+    ```
+    virtualenv .venv
+    source .venv/bin/activate
+    ```
 
 2. Install requirements:
-```
-make requirements
-```
+    ```
+    make requirements
+    ```
 
 3. Running the SDK:
-- Read the [notebook](notebooks/1.0-pto-url-chat-sdk-and-api.ipynb)
+    - Read the [notebook](notebooks/1.0-pto-url-chat-sdk-and-api.ipynb)
 
 4. Running the API:
 
-```
-cd src
-uvicorn api:app --reload --port 8001
-curl -X POST "http://127.0.0.1:8001/index-url/" -H "Content-Type: application/json" -d '{"url": "https://en.wikipedia.org/wiki/Brazil"}'
-curl -X POST "http://127.0.0.1:8001/ask/" -H "Content-Type: application/json" -d '{"url": "https://en.wikipedia.org/wiki/Brazil", "question": "what is the population of Brazil?"}'
-```
+    ```
+    python src/api.py
+    ```
+    Index the url
+
+    ``` shell
+    curl -X POST "http://127.0.0.1:8001/index-url/" -H "Content-Type: application/json" -d '{"url": "https://en.wikipedia.org/wiki/Brazil"}'
+    ```
+    Make questions
+    ```
+    curl -X POST "http://127.0.0.1:8001/ask/" -H "Content-Type: application/json" -d '{"url": "https://en.wikipedia.org/wiki/Brazil", "question": "what is the population of Brazil?"}'
+
+    curl -X POST "http://127.0.0.1:8001/ask/" -H "Content-Type: application/json" -d '{"url": "https://en.wikipedia.org/wiki/Brazil", "question": "what was my last question"}'
+    ```
 
 ## Project Organization
 
