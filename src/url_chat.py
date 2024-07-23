@@ -47,31 +47,35 @@ class URLChat:
         self.document_store = InMemoryDocumentStore()
         self.preprocessor = DocumentSplitter(split_by=split_by, split_length=split_length)
         self.document_writer = DocumentWriter(document_store=self.document_store)
-        self.index_pipeline = self.build_index_pipeline(
+        self.index_pipeline = self.__build_index_pipeline(
             self.fetcher, self.converter, self.preprocessor, self.document_writer
         )
 
         # Components for question answering pipeline
         self.retriever = InMemoryBM25Retriever(document_store=self.document_store)
-        self.prompt = [ChatMessage.from_system(
-            """
+        self.prompt = [
+            ChatMessage.from_system(
+                """
             According to the contents of this website:
             {% for document in documents %}
             {{document.content}}
             {% endfor %}
             Answer the user's question.
             """
-        )]
+            )
+        ]
         self.prompt_builder = ChatPromptBuilder(template=self.prompt)
         self.llm = OpenAIChatGenerator(
             api_key=Secret.from_env_var("GROQ_API_KEY"),
             api_base_url="https://api.groq.com/openai/v1",
             model=self.model,
         )
-        self.ask_pipeline = self.build_ask_pipeline(self.retriever, self.prompt_builder, self.llm)
+        self.ask_pipeline = self.__build_ask_pipeline(
+            self.retriever, self.prompt_builder, self.llm
+        )
         self.messages = {}
 
-    def build_index_pipeline(self, fetcher, converter, preprocessor, document_writer):
+    def __build_index_pipeline(self, fetcher, converter, preprocessor, document_writer):
         index_pipeline = Pipeline()
         index_pipeline.add_component("fetcher", fetcher)
         index_pipeline.add_component("converter", converter)
@@ -83,7 +87,7 @@ class URLChat:
         index_pipeline.connect("preprocessor.documents", "document_writer.documents")
         return index_pipeline
 
-    def build_ask_pipeline(self, retriever, prompt_builder, llm):
+    def __build_ask_pipeline(self, retriever, prompt_builder, llm):
         ask_pipeline = Pipeline()
         ask_pipeline.add_component("retriever", retriever)
         ask_pipeline.add_component("prompt_builder", prompt_builder)
@@ -102,7 +106,7 @@ class URLChat:
         self.index_pipeline.run({"fetcher": {"urls": [url]}})
 
     def ask(self, url: str, question: str) -> str:
-        """Send a url that has been previously indexed using the _index_ method and a question relating to it, 
+        """Send a url that has been previously indexed using the _index_ method and a question relating to it,
         this will create a chat and you can ask followup questions related to that url.
 
         Args:
@@ -114,12 +118,14 @@ class URLChat:
         """
         if url not in self.messages:
             self.messages[url] = self.prompt.copy()
-        
+
         self.messages[url].append(ChatMessage.from_user(question))
-        response = self.ask_pipeline.run({
-            "retriever": {"query": question, "filters": {"url": url}, "top_k": 15},
-            "prompt_builder": {"template": self.messages[url]},
-        })["llm"]["replies"][0]
+        response = self.ask_pipeline.run(
+            {
+                "retriever": {"query": question, "filters": {"url": url}, "top_k": 15},
+                "prompt_builder": {"template": self.messages[url]},
+            }
+        )["llm"]["replies"][0]
         self.messages[url].append(response)
 
         return response.content
