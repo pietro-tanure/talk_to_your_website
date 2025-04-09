@@ -1,5 +1,0 @@
-python-dotenv
-haystack-ai 
-fastapi
-uvicorn
-trafilatura

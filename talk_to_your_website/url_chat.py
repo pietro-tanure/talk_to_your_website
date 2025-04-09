@@ -13,7 +13,10 @@ from haystack.utils import Secret
 
 class URLChat:
     def __init__(
-        self, llm_model: str = "llama3", split_by: str = "sentence", split_length: int = 15
+        self,
+        llm_model: str = "llama3",
+        split_by: str = "sentence",
+        split_length: int = 15,
     ):
         """Model that answers questions based on the content of a given URL
 
@@ -45,7 +48,9 @@ class URLChat:
         self.fetcher = LinkContentFetcher()
         self.converter = HTMLToDocument()
         self.document_store = InMemoryDocumentStore()
-        self.preprocessor = DocumentSplitter(split_by=split_by, split_length=split_length)
+        self.preprocessor = DocumentSplitter(
+            split_by=split_by, split_length=split_length
+        )
         self.document_writer = DocumentWriter(document_store=self.document_store)
         self.index_pipeline = self.__build_index_pipeline(
             self.fetcher, self.converter, self.preprocessor, self.document_writer

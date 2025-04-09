@@ -13,35 +13,40 @@ Given a website URL, we want to have a conversational interface to talk to URL c
     echo 'GROQ_API_KEY="XXXX"' >> .env
     ```
 
-1. Create a virtual environment:
-    ```
-    virtualenv .venv
-    source .venv/bin/activate
-    ```
-
-2. Install requirements:
-    ```
-    make requirements
+1. Install virtual environment in Powershell:
+    ``` powershell
+    poetry install
+    poetry check
+    Invoke-Expression (poetry env activate)
+    ipython kernel install --name "talk_to_your_website" --user
     ```
 
-3. Running the SDK:
-    - Read the [notebook](notebooks/1.0-pto-url-chat-sdk-and-api.ipynb)
+2. Running the SDK:
+    
+    Read the [notebook](notebooks/1.0-pto-url-chat-sdk-and-api.ipynb)
 
-4. Running the API:
+3. Running the API:
 
-    ```
-    python src/api.py
+    ``` powershell
+    poetry run python -m talk_to_your_website.api
     ```
     Index the url
 
-    ``` shell
-    curl -X POST "http://127.0.0.1:8001/index-url/" -H "Content-Type: application/json" -d '{"url": "https://en.wikipedia.org/wiki/Brazil"}'
+    ``` powershell
+    curl.exe -X POST "http://127.0.0.1:8001/index-url/" `
+    -H "Content-Type: application/json" `
+    -d '{\"url\": \"https://en.wikipedia.org/wiki/Brazil\"}'
     ```
     Make questions
-    ```
-    curl -X POST "http://127.0.0.1:8001/ask/" -H "Content-Type: application/json" -d '{"url": "https://en.wikipedia.org/wiki/Brazil", "question": "what is the population of Brazil?"}'
+    ``` powershell
+    curl.exe -X POST "http://127.0.0.1:8001/ask/" `
+    -H "Content-Type: application/json" `
+    -d '{\"url\": \"https://en.wikipedia.org/wiki/Brazil\", \"question\": \"what is the population of Brazil?\"}'
 
-    curl -X POST "http://127.0.0.1:8001/ask/" -H "Content-Type: application/json" -d '{"url": "https://en.wikipedia.org/wiki/Brazil", "question": "what was my last question"}'
+    curl.exe -X POST "http://127.0.0.1:8001/ask/" `
+    -H "Content-Type: application/json" `
+    -d '{\"url\": \"https://en.wikipedia.org/wiki/Brazil\", \"question\": \"what was my last question?\"}'
+
     ```
 
 ## Project Organization
@@ -65,7 +70,7 @@ Given a website URL, we want to have a conversational interface to talk to URL c
 │
 ├── setup.cfg          <- Configuration file for flake8
 │
-└── src                <- Source code for use in this project.
+└── talk_to_your_website                <- Source code for use in this project.
     │
     ├── __init__.py    <- Makes src a Python module
     │

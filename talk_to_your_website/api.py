@@ -1,21 +1,25 @@
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict
-from url_chat import URLChat
+from .url_chat import URLChat
 import uvicorn
 
-
+load_dotenv()
 app = FastAPI()
 
 # Initialize URLChat model
 url_chat = URLChat()
 
+
 class URLIndexRequest(BaseModel):
     url: str
+
 
 class QuestionRequest(BaseModel):
     url: str
     question: str
+
 
 @app.post("/index-url/")
 def index_url(request: URLIndexRequest):
@@ -25,6 +29,7 @@ def index_url(request: URLIndexRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.post("/ask/")
 def ask_question(request: QuestionRequest) -> Dict:
     try:
@@ -32,6 +37,7 @@ def ask_question(request: QuestionRequest) -> Dict:
         return {"message": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8001)
