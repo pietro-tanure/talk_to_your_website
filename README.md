@@ -46,37 +46,33 @@ Given a website URL, we want to have a conversational interface to talk to URL c
     curl.exe -X POST "http://127.0.0.1:8001/ask/" `
     -H "Content-Type: application/json" `
     -d '{\"url\": \"https://en.wikipedia.org/wiki/Brazil\", \"question\": \"what was my last question?\"}'
-
     ```
 
 ## Project Organization
 
 ```
-├── LICENSE            <- Open-source license if one is chosen
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
-├── README.md          <- The top-level README for developers using this project.
+├── notebooks               <- Jupyter notebooks. Naming convention is a number (for ordering),
+│                               the creator's initials, and a short `-` delimited description, e.g.
+│                               `1.0-jqp-initial-data-exploration`.
 │
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
+├── references              <- Coding exercise explanation
 │
-├── pyproject.toml     <- Project configuration file with package metadata for talk_to_your_website
-│                         and configuration for tools like black
+├── talk_to_your_website    <- Source code for use in this project.
+|    │
+|    ├── __init__.py        <- Makes src a Python module
+|    │
+|    ├── api.py             <- Scripts to generate endpoint API
+|    │
+|    └── url_chat.py        <- Scripts to create url augmented QA model
+|
+├── poetry.lock             <- Auto-generated, deterministic record of all exact dependency versions and their hashes 
+|                               for a Poetry-managed Python project, ensuring reproducible installations across environments.
 │
-├── references         <- Coding exercise explanation
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
-│
-└── talk_to_your_website                <- Source code for use in this project.
-    │
-    ├── __init__.py    <- Makes src a Python module
-    │
-    ├── api.py         <- Scripts to generate endpoint API
-    │
-    └── url_chat.py    <- Scripts to create url augmented QA model
+├── pyproject.toml          <- Project configuration file with package metadata, poetry  for talk_to_your_website
+│                               and configuration for tools like black
+|
+└── README.md               <- The top-level README for developers using this project.
+
 ```
 
 --------
